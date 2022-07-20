@@ -262,6 +262,61 @@
     width: 1920px;
   }
 
+  .custom-footer{
+    position: absolute;
+    bottom: 0;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .demolition-list{
+    padding: 1.2rem;
+    margin-bottom: 2rem;
+    overflow-y: auto;
+  }
+
+  .card-inner{
+    padding: 0.8rem;
+    display: flex;
+
+    .data-column{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0 1rem;
+
+      &.left{
+        align-items: flex-start;
+      }
+    }
+  }
+
+  .pillar-container{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .selected-demolition-panel{
+    padding: 1.2rem;
+    width: 100%;
+    background-color: #f1f1f1;
+
+    .selected-demolition{
+      margin-bottom: 1rem;
+    }
+  }
+
+  .assignToWrecker, .assignToPanel{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   /* Responsive Styles */
   @media screen and (max-width: 767px) {
     .card-container > *:not(.circle-link) ,

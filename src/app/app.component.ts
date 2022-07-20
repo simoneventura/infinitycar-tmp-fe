@@ -31,22 +31,19 @@ export class AppComponent  implements OnInit{
 
   ngOnInit(): void {
 
+    this.loadDemolitions();
+
     this.wreckerControl.valueChanges.subscribe(
-      newValue => this.selectedWrecker = newValue
+      newValue => {
+        this.selectedWrecker = newValue;
+        let wreckerToSelect: { email: string, socialReason: string } = this.wreckerList.find((item:any) => item.socialReason === newValue) as { email: string, socialReason: string };
+        this.selectedWrecker = wreckerToSelect;
+        console.log('Selected wrecker: ', this.selectedWrecker)
+      }
     )
 
     this.employeeControl.valueChanges.subscribe(
       newValue => this.selectedEmployee = newValue
-    )
-
-
-    this.httpClient.get<any>(environment.baseUrl + 'demolitions').pipe(first()).subscribe(
-      (newData: IDemolitionResponse) => {
-        this.demolitions = newData.data.demolitions;
-      },
-      error => {
-        this.demolitions = [];
-      }
     )
 
     this.httpClient.get<any>(environment.baseUrl + "wrecker").pipe(first()).subscribe(
@@ -54,6 +51,17 @@ export class AppComponent  implements OnInit{
     )
 
     this.getEmployeeList();
+  }
+
+  loadDemolitions(){
+    this.httpClient.get<any>(environment.baseUrl + 'demolitions/getAll').pipe(first()).subscribe(
+      (newData: IDemolitionResponse) => {
+        this.demolitions = newData.data.demolitions;
+      },
+      error => {
+        this.demolitions = [];
+      }
+    )
   }
 
   selectDemolition(demolitionId: number){
@@ -71,7 +79,11 @@ export class AppComponent  implements OnInit{
       demolitionId: this.selectedDemolition?.id,
       socialReason: this.selectedWrecker.socialReason
     }).subscribe(
-      success => window.alert('Demolitore assegnato con successo!')
+      success => {
+        window.alert('Demolitore assegnato con successo!');
+        this.loadDemolitions();
+      },
+      error => window.alert('Errore: Demolitore NON assegnato')
     )
   }
 
@@ -84,7 +96,11 @@ export class AppComponent  implements OnInit{
       demolitionId: this.selectedDemolition?.id,
       employeeName: this.selectedEmployee
     }).subscribe(
-      success => window.alert('Operatore assegnato con successo!')
+      success => {
+        window.alert('Operatore assegnato con successo!');
+        this.loadDemolitions();
+      },
+      error => window.alert('Errore: Operatore NON assegnato')
     )
   }
 

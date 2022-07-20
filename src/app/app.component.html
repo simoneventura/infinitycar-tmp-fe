@@ -48,30 +48,59 @@
   </div>
 
   <div *ngIf="demolitions.length; else noDemolition" class="demolition-list">
-    <div *ngFor="let demolition of demolitions" (click)="selectDemolition(demolition.id)" class="demolition-line">
-      {{demolition | json}}
-    </div>
+
+    <mat-card *ngFor="let demolition of demolitions" (click)="selectDemolition(demolition.id)" class="demolition-line">
+      <div class="card-inner">
+        <div class="data-column">
+          <span><strong>Proprietario</strong></span>
+          <span>{{demolition.ownerName}}</span>
+        </div>
+        <div class="data-column">
+          <span><strong>Demolitore assegnato</strong></span>
+          <span>{{demolition.wreckerSocialReason && demolition.wreckerSocialReason !== '' ? demolition.wreckerSocialReason : '-'}}</span>
+        </div>
+        <div class="data-column">
+          <span><strong>Operatore assegnato</strong></span>
+          <span>{{demolition.assignedTo && demolition.assignedTo !== '' ? demolition.assignedTo : '-' }}</span>
+        </div>
+      </div>
+    </mat-card>
   </div>
 
 
   <ng-template #noDemolition>
-    <div style="color: black;" >
+    <div style="color: black;" class="demolition-list">
       Nessuna pratica di demolizione presente
     </div>
   </ng-template>
 
-  <div  class="selected-demolition-panl">
+  <div  class="selected-demolition-panel">
       <div *ngIf="selectedDemolition" class="selected-demolition">
-        {{selectedDemolition | json}}
+        <mat-card *ngIf="selectedDemolition" class="demolition-line">
+          <div class="card-inner">
+            <div class="data-column left">
+              <mat-icon style="color: green;">check_circle</mat-icon>
+            </div>
+            <div class="data-column left">
+              <span><strong>Proprietario</strong></span>
+              <span>{{selectedDemolition.ownerName}}</span>
+            </div>
+            <div class="data-column left">
+              <span><strong>Demolitore assegnato</strong></span>
+              <span>{{selectedDemolition.wreckerSocialReason && selectedDemolition.wreckerSocialReason !== '' ? selectedDemolition.wreckerSocialReason : '-'}}</span>
+            </div>
+            <div class="data-column left">
+              <span><strong>Operatore assegnato</strong></span>
+              <span>{{selectedDemolition.assignedTo && selectedDemolition.assignedTo !== '' ? selectedDemolition.assignedTo : '-' }}</span>
+            </div>
+          </div>
+        </mat-card>
       </div>
-      <div class="assignToPanel">
-        <div>
+      <div class="pillar-container ">
+        <div class="assignToPanel">
           <mat-form-field appearance="fill">
             <mat-label>Assegnazione</mat-label>
             <mat-select [formControl]="employeeControl">
-              <!-- <mat-select-trigger>
-                Seleziona
-              </mat-select-trigger> -->
               <mat-option *ngFor="let employee of employeeList" [value]="employee">{{employee}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -79,27 +108,25 @@
           <button mat-raised-button (click)="assignOperator()">Assegna operatore</button>
         </div>
 
-      </div>
-
-      <div class="assignToWrecker">
-        <div>
+        <div class="assignToWrecker">
           <mat-form-field appearance="fill">
             <mat-label>Assegna demolitore</mat-label>
             <mat-select [formControl]="wreckerControl">
               <!-- <mat-select-trigger>
                 Seleziona
               </mat-select-trigger> -->
-              <mat-option *ngFor="let wrecker of wreckerList" [value]="wrecker.socialReason">{{wrecker}}</mat-option>
+              <mat-option *ngFor="let wrecker of wreckerList" [value]="wrecker.socialReason">{{wrecker.socialReason}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <button mat-raised-button (click)="assignWrecker()">Assegna demolitore</button>
         </div>
-
       </div>
     </div>
 
-
+    <footer class="custom-footer">
+      Powered by Lineage Consulting
+    </footer>
 </div>
 
 <router-outlet></router-outlet>
