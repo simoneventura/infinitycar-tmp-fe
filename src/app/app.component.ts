@@ -73,7 +73,7 @@ export class AppComponent  implements OnInit{
 
   assignWrecker(){
     if(!this.selectedWrecker) return;
-    if(!this.selectedDemolition) return;
+    if(!this.selectedDemolition) return window.alert('Selezionare una pratica prima di effettuare un assegnazione!');
 
     this.httpClient.post(environment.baseUrl + 'demolitions/assignWrecker', {
       demolitionId: this.selectedDemolition?.id,
@@ -90,7 +90,7 @@ export class AppComponent  implements OnInit{
 
   assignOperator(){
     if(this.selectedEmployee === '') return;
-    if(!this.selectedDemolition) return;
+    if(!this.selectedDemolition) return window.alert('Selezionare una pratica prima di effettuare un assegnazione!');
 
     this.httpClient.post(environment.baseUrl + 'demolitions/assignEmployee', {
       demolitionId: this.selectedDemolition?.id,
